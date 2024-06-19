@@ -16,6 +16,7 @@ var suffix string
 var scan string
 var template string
 var base string
+var dry bool
 
 func init() {
 	current_year := time.Now().Year()
@@ -28,10 +29,12 @@ func init() {
 	flag.StringVar(&scan, "scan", "", "Base folder to scan folder tree")
 	flag.StringVar(&template, "template", "", "Create folder tree based on template")
 	flag.StringVar(&base, "base", "", "Base folder")
+	flag.BoolVar(&dry, "dry", false, "Dry run")
 }
 
 func main() {
 	flag.Parse()
+	genFolder()
 	checkUsage()
 }
 
@@ -47,4 +50,17 @@ func checkUsage() {
 	fmt.Printf("scan = %q\n", scan)
 	fmt.Printf("template = %q\n", template)
 	fmt.Printf("base = %q\n", base)
+	fmt.Printf("dry = %v\n", dry)
+}
+
+func genFolder() {
+	year := 2024
+	d := time.Date(year, 1, 1, 0, 0, 0, 0, time.Local)
+	for {
+		if d.Year() > year {
+			break
+		}
+		fmt.Printf("%v\n", d)
+		d = d.AddDate(0, 0, 1)
+	}
 }
